@@ -46,6 +46,28 @@ public:
     }
 
 
+    /**
+     * @brief 矢量相加
+
+     * 矢量相加必须两个矢量的维度相同，对应元素相加即可
+
+     * 我们可以按照几何形式将矢量a和b相加，方法是定位矢量，使得a的头部接触b的尾部，然后绘制一个从a的尾部到b的头部的矢量，矢量加法的三角形法则
+     *
+     * @param a 
+     * @param b 
+     * @return 
+     */
+    static Vector4* Add(Vector4* a, Vector4* b)
+    {
+        Vector4* result = new Vector4();
+        result->x = a->x + b->x;
+        result->y = a->y + b->y;
+        result->z = a->z + b->z;
+        result->w = a->w + b->w;
+        return result;
+    }
+
+
 };
 
 #endif // !RAN_VECTOR_H

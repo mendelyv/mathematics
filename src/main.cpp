@@ -11,4 +11,14 @@ int main()
     printf("vector scale by %d : \n", scale);
     Vector4::Scale(vec, 2);
     vec->Print();
+
+    Vector4* vec2 = new Vector4(2.2f, 1, 0.3f, 1);
+    printf("initial vector2 : \n");
+    vec2->Print();
+    printf("vector add vector2 : \n");
+    vec2 = Vector4::Add(vec, vec2);
+    vec2->Print();
+
+    delete vec;
+    delete vec2;
 }
