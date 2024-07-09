@@ -64,7 +64,14 @@ public:
         res->x = a->x + b->x;
         res->y = a->y + b->y;
         res->z = a->z + b->z;
-        res->w = a->w + b->w;
+    }
+    static Vector4 Add(Vector4* a, Vector4* b)
+    {
+        Vector4 res;
+        res.x = a->x + b->x;
+        res.y = a->y + b->y;
+        res.z = a->z + b->z;
+        return res;
     }
 
 
@@ -83,7 +90,14 @@ public:
         res->x = a->x - b->x;
         res->y = a->y - b->y;
         res->z = a->z - b->z;
-        res->w = a->w - b->w;
+    }
+    static Vector4 Sub(Vector4* a, Vector4* b)
+    {
+        Vector4 res;
+        res.x = a->x - b->x;
+        res.y = a->y - b->y;
+        res.z = a->z - b->z;
+        return res;
     }
 
 
