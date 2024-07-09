@@ -53,21 +53,37 @@ public:
 
      * 我们可以按照几何形式将矢量a和b相加，方法是定位矢量，使得a的头部接触b的尾部，然后绘制一个从a的尾部到b的头部的矢量，矢量加法的三角形法则
      *
-     * @param a 
-     * @param b 
-     * @return 
+     * @param res
+     * @param a
+     * @param b
+     * @return
      */
-    static Vector4* Add(Vector4* a, Vector4* b)
+    static void Add(Vector4* res, Vector4* a, Vector4* b)
     {
-        Vector4* result = new Vector4();
-        result->x = a->x + b->x;
-        result->y = a->y + b->y;
-        result->z = a->z + b->z;
-        result->w = a->w + b->w;
-        return result;
+        res->x = a->x + b->x;
+        res->y = a->y + b->y;
+        res->z = a->z + b->z;
+        res->w = a->w + b->w;
     }
 
 
+    /**
+     * @brief 矢量相减
+
+     * 可以看作加一个反方向的矢量
+     *
+     * @param res
+     * @param a
+     * @param b
+     * @return
+     */
+    static void Sub(Vector4* res, Vector4* a, Vector4* b)
+    {
+        res->x = a->x - b->x;
+        res->y = a->y - b->y;
+        res->z = a->z - b->z;
+        res->w = a->w - b->w;
+    }
 };
 
-#endif // !RAN_VECTOR_H
+#endif  // !RAN_VECTOR_H
