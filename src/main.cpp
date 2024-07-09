@@ -31,6 +31,8 @@ int main()
     vec3->Print();
     printf("vector normalized length : %f \n", vec3->Length());
 
+    printf("vector dot product with vector2 : %f \n", Vector4::DotProduct(vec, vec2));
+
     delete vec;
     delete vec2;
     delete vec3;

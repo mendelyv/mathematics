@@ -102,6 +102,23 @@ public:
 
 
     /**
+     * @brief 矢量点积
+
+     * 两个矢量的点积等于它们的各分量的乘积之和
+
+     * 点积的几何意义是矢量的投影，即矢量a在矢量b上的投影长度，矢量a和b的点积等于矢量a在矢量b上的投影向量的长度，矢量a和b的点积等于矢量a在矢量b上的投影面积
+     *
+     * @param a 
+     * @param b 
+     * @return 
+     */
+    static float DotProduct( Vector4* a, Vector4* b)
+    {
+        return a->x * b->x + a->y * b->y + a->z * b->z;
+    }
+
+
+    /**
      * @brief 矢量长度
      *
      * @param v
