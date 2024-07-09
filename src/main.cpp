@@ -27,6 +27,12 @@ int main()
     Vector4::Sub(vec, vec, vec3);
     vec->Print();
 
+    vec3->Normalize();
+    printf("vector3 normalize : \n");
+    vec3->Print();
+    printf("vector normalized length : %f \n", vec3->Length());
+
     delete vec;
     delete vec2;
+    delete vec3;
 }

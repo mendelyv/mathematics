@@ -97,6 +97,20 @@ public:
     {
         return sqrt(this->x * this->x + this->y * this->y + this->z * this->z);
     }
+
+
+    /**
+     * @brief 矢量归一化
+     */
+    void Normalize()
+    {
+        float len = this->Length();
+        if(fabsf(len) < 1e-6) return;
+        float k = 1 / len;
+        this->x *= k;
+        this->y *= k;
+        this->z *= k;
+    }
 };
 
 #endif  // !RAN_VECTOR_H
