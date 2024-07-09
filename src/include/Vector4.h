@@ -1,6 +1,7 @@
 #ifndef RAN_VECTOR_H
 #define RAN_VECTOR_H
 
+#include <cmath>
 #include <iostream>
 
 class Vector4
@@ -83,6 +84,18 @@ public:
         res->y = a->y - b->y;
         res->z = a->z - b->z;
         res->w = a->w - b->w;
+    }
+
+
+    /**
+     * @brief 矢量长度
+     *
+     * @param v
+     * @return
+     */
+    float Length()
+    {
+        return sqrt(this->x * this->x + this->y * this->y + this->z * this->z);
     }
 };
 
