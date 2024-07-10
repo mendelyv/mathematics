@@ -1,7 +1,8 @@
+#include "include/Matrix4x4.h"
 #include "include/Vector4.h"
 #include <stdio.h>
 
-int main()
+void VectorTest()
 {
     Vector4* vec = new Vector4(1, 2, 0.5f, 3);
     printf("initial vector : \n");
@@ -42,4 +43,26 @@ int main()
     delete vec;
     delete vec2;
     delete vec3;
+}
+
+void MatrixTest()
+{
+    float data[4][4] = {
+        { 1.0f, 2.0f, 3.0f, 4.0f },
+        { 5.0f, 6.0f, 7.0f, 8.0f },
+        { 9.0f, 10.0f, 11.0f, 12.0f },
+        { 13.0f, 14.0f, 15.0f, 16.0f },
+    };
+    Matrix4x4* mat = new Matrix4x4(data);
+    printf("initial matrix : \n");
+    mat->Print();
+    printf("matrix transpose : \n");
+    mat->Transpose();
+    mat->Print();
+}
+
+int main()
+{
+    // VectorTest();
+    MatrixTest();
 }
