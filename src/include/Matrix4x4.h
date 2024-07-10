@@ -55,6 +55,19 @@ public:
                 this->m[j][i] = temp;
             }
     }
+
+
+    /**
+     * @brief 矩阵缩放
+     *
+     * @param s 
+     */
+    void Scale(float s)
+    {
+        int len = Matrix4x4::MAX;
+        for (int i = 0; i < len; i++)
+            for (int j = 0; j < len; j++) this->m[i][j] *= s;
+    }
 };
 
 #endif  // !M_MATRIX_H

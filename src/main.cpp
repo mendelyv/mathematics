@@ -59,6 +59,10 @@ void MatrixTest()
     printf("matrix transpose : \n");
     mat->Transpose();
     mat->Print();
+    float scale = 2.0f;
+    printf("matrix scale by %f : \n", scale);
+    mat->Scale(scale);
+    mat->Print();
 }
 
 int main()
