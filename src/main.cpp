@@ -32,6 +32,12 @@ int main()
     printf("vector normalized length : %f \n", vec3->Length());
 
     printf("vector dot product with vector2 : %f \n", Vector4::DotProduct(vec, vec2));
+    Vector4* crossVec = new Vector4(1, 3, 4, 0);
+    Vector4* crossVec2 = new Vector4(2, -5, 8, 0);
+    Vector4* crossRes = new Vector4();
+    Vector4::CrossProduct(crossRes, crossVec, crossVec2);
+    printf("crossVec x crossVec2 : ");
+    crossRes->Print();
 
     delete vec;
     delete vec2;

@@ -108,13 +108,38 @@ public:
 
      * 点积的几何意义是矢量的投影，即矢量a在矢量b上的投影长度，矢量a和b的点积等于矢量a在矢量b上的投影向量的长度，矢量a和b的点积等于矢量a在矢量b上的投影面积
      *
-     * @param a 
-     * @param b 
-     * @return 
+     * @param a
+     * @param b
+     * @return
      */
-    static float DotProduct( Vector4* a, Vector4* b)
+    static float DotProduct(Vector4* a, Vector4* b)
     {
         return a->x * b->x + a->y * b->y + a->z * b->z;
+    }
+
+
+    /**
+     * @brief 矢量叉积
+
+     * 叉积将产生一个矢量，垂直于原始的两个矢量，方向取决于左右手坐标系
+     *
+     * @param res
+     * @param a
+     * @param b
+     */
+    static void CrossProduct(Vector4* res, Vector4* a, Vector4* b)
+    {
+        res->x = a->y * b->z - a->z * b->y;
+        res->y = a->z * b->x - a->x * b->z;
+        res->z = a->x * b->y - a->y * b->x;
+    }
+    static Vector4 CrossProduct(Vector4* a, Vector4* b)
+    {
+        Vector4 res;
+        res.x = a->y * b->z - a->z * b->y;
+        res.y = a->z * b->x - a->x * b->z;
+        res.z = a->x * b->y - a->y * b->x;
+        return res;
     }
 
 
@@ -136,7 +161,7 @@ public:
     void Normalize()
     {
         float len = this->Length();
-        if(fabsf(len) < 1e-6) return;
+        if (fabsf(len) < 1e-6) return;
         float k = 1 / len;
         this->x *= k;
         this->y *= k;
