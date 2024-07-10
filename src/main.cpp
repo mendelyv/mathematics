@@ -63,6 +63,27 @@ void MatrixTest()
     printf("matrix scale by %f : \n", scale);
     mat->Scale(scale);
     mat->Print();
+
+    float matMulDataA[4][4] = {
+        { 1, -5, 3, 0 },
+        { 0, -2, 6, 0 },
+        { 7, 2, -4, 0 },
+        { 0, 0, 0, 0 },
+    };
+    Matrix4x4* matMulA = new Matrix4x4(matMulDataA);
+    float matMulDataB[4][4] = {
+        { -8, 6, 1, 0 },
+        { 7, 0, -3, 0 },
+        { 2, 4, 5, 0 },
+        { 0, 0, 0, 0 },
+    };
+    Matrix4x4* matMulB = new Matrix4x4(matMulDataB);
+    printf("matMulA : \n");
+    matMulA->Print();
+    printf("matMulB : \n");
+    matMulB->Print();
+    printf("matMulA x matMulB : \n");
+    Matrix4x4::Multiply(matMulA, matMulB).Print();
 }
 
 int main()

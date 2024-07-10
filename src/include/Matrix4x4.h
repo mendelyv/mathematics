@@ -60,13 +60,34 @@ public:
     /**
      * @brief 矩阵缩放
      *
-     * @param s 
+     * @param s
      */
     void Scale(float s)
     {
         int len = Matrix4x4::MAX;
         for (int i = 0; i < len; i++)
             for (int j = 0; j < len; j++) this->m[i][j] *= s;
+    }
+
+
+    /**
+     * @brief 矩阵相乘
+     *
+     * @param res 
+     * @param a 
+     * @param b 
+     */
+    static void Multiply(Matrix4x4* res, Matrix4x4* a, Matrix4x4* b)
+    {
+        int len = Matrix4x4::MAX;
+        for (int i = 0; i < len; i++)
+            for (int j = 0; j < len; j++) res->m[i][j] = a->m[i][0] * b->m[0][j] + a->m[i][1] * b->m[1][j] + a->m[i][2] * b->m[2][j] + a->m[i][3] * b->m[3][j];
+    }
+    static Matrix4x4 Multiply(Matrix4x4* a, Matrix4x4* b)
+    {
+        Matrix4x4 res;
+        Matrix4x4::Multiply(&res, a, b);
+        return res;
     }
 };
 
