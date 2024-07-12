@@ -71,11 +71,53 @@ public:
 
 
     /**
+     * @brief 矩阵相加
+     *
+     * @param res
+     * @param a
+     * @param b
+     */
+    static void Add(Matrix4x4* res, Matrix4x4* a, Matrix4x4* b)
+    {
+        int len = Matrix4x4::MAX;
+        for (int i = 0; i < len; i++)
+            for (int j = 0; j < len; j++) res->m[i][j] = a->m[i][j] + b->m[i][j];
+    }
+    static Matrix4x4 Add(Matrix4x4* a, Matrix4x4* b)
+    {
+        Matrix4x4 res;
+        Matrix4x4::Add(&res, a, b);
+        return res;
+    }
+
+
+    /**
+     * @brief 矩阵减法
+     *
+     * @param res
+     * @param a
+     * @param b
+     */
+    static void Subtract(Matrix4x4* res, Matrix4x4* a, Matrix4x4* b)
+    {
+        int len = Matrix4x4::MAX;
+        for (int i = 0; i < len; i++)
+            for (int j = 0; j < len; j++) res->m[i][j] = a->m[i][j] - b->m[i][j];
+    }
+    static Matrix4x4 Subtract(Matrix4x4* a, Matrix4x4* b)
+    {
+        Matrix4x4 res;
+        Matrix4x4::Subtract(&res, a, b);
+        return res;
+    }
+
+
+    /**
      * @brief 矩阵相乘
      *
-     * @param res 
-     * @param a 
-     * @param b 
+     * @param res
+     * @param a
+     * @param b
      */
     static void Multiply(Matrix4x4* res, Matrix4x4* a, Matrix4x4* b)
     {

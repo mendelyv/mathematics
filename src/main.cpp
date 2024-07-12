@@ -84,6 +84,10 @@ void MatrixTest()
     matMulB->Print();
     printf("matMulA x matMulB : \n");
     Matrix4x4::Multiply(matMulA, matMulB).Print();
+    printf("matMulA + matMulB : \n");
+    Matrix4x4::Add(matMulA, matMulB).Print();
+    printf("matMulA - matMulB : \n");
+    Matrix4x4::Subtract(matMulA, matMulB).Print();
 }
 
 int main()
