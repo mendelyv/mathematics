@@ -103,7 +103,8 @@ void MatrixTest()
     printf("inital matC : \n");
     matC->Print();
     printf("matC submatrix: \n");
-    matC->Submatrix(0, 1)->Print();
+    matC->Submatrix(0, 1).Print();
+    printf("matC determinant : %f \n", matC->Determinant());
 }
 
 int main()

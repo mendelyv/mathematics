@@ -171,23 +171,44 @@ public:
      * @param column
      * @return
      */
-    Matrix* Submatrix(int row, int column)
+    Matrix Submatrix(int excludingRow, int excludingColumn) const
     {
-        Matrix* res = new Matrix(this->_row - 1, this->_column - 1);
+        Matrix sub(this->_row - 1, this->_column - 1);
+        int sub_i = 0;
         for (int i = 0; i < this->_row; i++)
         {
-            if (i == row)
+            if (i == excludingRow)
                 continue;
+            int sub_j = 0;
             for (int j = 0; j < this->_column; j++)
             {
-                if (j == column)
+                if (j == excludingColumn)
                     continue;
-                int resRow = i > row ? i - 1 : i;
-                int resCol = j > column ? j - 1 : j;
-                res->m[resRow][resCol] = this->m[i][j];
+                sub.m[sub_i][sub_j] = m[i][j];
+                sub_j++;
             }
+            sub_i++;
         }
-        return res;
+        return sub;
+    }
+
+
+    float Determinant()
+    {
+        if (this->_row != this->_column)
+            return 0;
+        if (this->_row == 2 && this->_column == 2)
+            return this->m[0][0] * this->m[1][1] - this->m[0][1] * this->m[1][0];
+        float det = 0.0f;
+        for (int i = 0; i < this->_row; i++)
+        {
+            Matrix sub = this->Submatrix(0, i);
+            sub.Print();
+            int direction = (i % 2 == 0) ? 1 : -1;
+            float minor = sub.Determinant();
+            det += this->m[0][i] * direction * minor;
+        }
+        return det;
     }
 };
 
