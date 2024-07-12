@@ -147,9 +147,9 @@ public:
     /**
      * @brief 矩阵相乘
      *
-     * @param a 
-     * @param b 
-     * @return 
+     * @param a
+     * @param b
+     * @return
      */
     static Matrix* Multiply(Matrix* a, Matrix* b)
     {
@@ -160,6 +160,33 @@ public:
             for (int j = 0; j < b->column(); j++)
                 for (int k = 0; k < a->column(); k++)
                     res->m[i][j] += a->m[i][k] * b->m[k][j];
+        return res;
+    }
+
+
+    /**
+     * @brief 子矩阵
+     *
+     * @param row
+     * @param column
+     * @return
+     */
+    Matrix* Submatrix(int row, int column)
+    {
+        Matrix* res = new Matrix(this->_row - 1, this->_column - 1);
+        for (int i = 0; i < this->_row; i++)
+        {
+            if (i == row)
+                continue;
+            for (int j = 0; j < this->_column; j++)
+            {
+                if (j == column)
+                    continue;
+                int resRow = i > row ? i - 1 : i;
+                int resCol = j > column ? j - 1 : j;
+                res->m[resRow][resCol] = this->m[i][j];
+            }
+        }
         return res;
     }
 };

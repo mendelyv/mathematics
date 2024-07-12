@@ -90,6 +90,20 @@ void MatrixTest()
     printf("matA x matB : \n");
     Matrix* matABres = Matrix::Multiply(matA, matB);
     matABres->Print();
+
+    float dataC[3][3] = {
+        { -4, -3, 3 },
+        { 0, 2, -2 },
+        { 1, 4, -1 },
+    };
+    Matrix* matC = new Matrix(3, 3);
+    for (int i = 0; i < matC->row(); i++)
+        for (int j = 0; j < matC->column(); j++)
+            matC->m[i][j] = dataC[i][j];
+    printf("inital matC : \n");
+    matC->Print();
+    printf("matC submatrix: \n");
+    matC->Submatrix(0, 1)->Print();
 }
 
 int main()
