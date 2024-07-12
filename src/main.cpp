@@ -1,4 +1,4 @@
-#include "include/Matrix4x4.h"
+#include "Matrix.h"
 #include "include/Vector4.h"
 #include <stdio.h>
 
@@ -47,47 +47,49 @@ void VectorTest()
 
 void MatrixTest()
 {
-    float data[4][4] = {
-        { 1.0f, 2.0f, 3.0f, 4.0f },
-        { 5.0f, 6.0f, 7.0f, 8.0f },
-        { 9.0f, 10.0f, 11.0f, 12.0f },
-        { 13.0f, 14.0f, 15.0f, 16.0f },
+    float data[4][3] = {
+        { 1.0f, 2.0f, 3.0f },
+        { 4.0f, 5.0f, 6.0f },
+        { 7.0f, 8.0f, 9.0f },
+        { 10.0f, 11.0f, 12.0f },
     };
-    Matrix4x4* mat = new Matrix4x4(data);
-    printf("initial matrix : \n");
+
+    Matrix* mat = new Matrix(4, 3);
+    for (int i = 0; i < mat->row(); i++)
+        for (int j = 0; j < mat->column(); j++)
+            mat->m[i][j] = data[i][j];
+    printf("initial mat : \n");
     mat->Print();
-    printf("matrix transpose : \n");
+    printf("mat transpose : \n");
     mat->Transpose();
     mat->Print();
-    float scale = 2.0f;
-    printf("matrix scale by %f : \n", scale);
-    mat->Scale(scale);
-    mat->Print();
 
-    float matMulDataA[4][4] = {
-        { 1, -5, 3, 0 },
-        { 0, -2, 6, 0 },
-        { 7, 2, -4, 0 },
-        { 0, 0, 0, 0 },
+
+    float dataMultA[3][3] = {
+        { 1, -5, 3 },
+        { 0, -2, 6 },
+        { 7, 2, -4 },
     };
-    Matrix4x4* matMulA = new Matrix4x4(matMulDataA);
-    float matMulDataB[4][4] = {
-        { -8, 6, 1, 0 },
-        { 7, 0, -3, 0 },
-        { 2, 4, 5, 0 },
-        { 0, 0, 0, 0 },
+    Matrix* matA = new Matrix(3, 3);
+    for (int i = 0; i < matA->row(); i++)
+        for (int j = 0; j < matA->column(); j++)
+            matA->m[i][j] = dataMultA[i][j];
+    printf("inital matA : \n");
+    matA->Print();
+    float dataMultB[3][3] = {
+        { -8, 6, 1 },
+        { 7, 0, -3 },
+        { 2, 4, 5 },
     };
-    Matrix4x4* matMulB = new Matrix4x4(matMulDataB);
-    printf("matMulA : \n");
-    matMulA->Print();
-    printf("matMulB : \n");
-    matMulB->Print();
-    printf("matMulA x matMulB : \n");
-    Matrix4x4::Multiply(matMulA, matMulB).Print();
-    printf("matMulA + matMulB : \n");
-    Matrix4x4::Add(matMulA, matMulB).Print();
-    printf("matMulA - matMulB : \n");
-    Matrix4x4::Subtract(matMulA, matMulB).Print();
+    Matrix* matB = new Matrix(3, 3);
+    for (int i = 0; i < matB->row(); i++)
+        for (int j = 0; j < matB->column(); j++)
+            matB->m[i][j] = dataMultB[i][j];
+    printf("inital matB : \n");
+    matB->Print();
+    printf("matA x matB : \n");
+    Matrix* matABres = Matrix::Multiply(matA, matB);
+    matABres->Print();
 }
 
 int main()
