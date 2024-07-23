@@ -203,12 +203,54 @@ public:
         for (int i = 0; i < this->_row; i++)
         {
             Matrix sub = this->Submatrix(0, i);
-            sub.Print();
             int direction = (i % 2 == 0) ? 1 : -1;
             float minor = sub.Determinant();
             det += this->m[0][i] * direction * minor;
         }
         return det;
+    }
+
+
+    /**
+     * @brief 伴随矩阵
+     *
+     * @return
+     */
+    Matrix* Adjugate()
+    {
+        if (this->_row != this->_column)
+            return nullptr;
+        Matrix* adj = new Matrix(this->_row, this->_column);
+        for (int i = 0; i < this->_row; i++)
+        {
+            for (int j = 0; j < this->_column; j++)
+            {
+                Matrix sub = this->Submatrix(i, j);
+                adj->m[j][i] = ((i + j) % 2 == 0) ? sub.Determinant() : -sub.Determinant();
+            }
+        }
+        return adj;
+    }
+
+
+    /**
+     * @brief 逆矩阵
+     *
+     * @return 
+     */
+    Matrix* Inverse()
+    {
+        if (this->_row != this->_column)
+            return nullptr;
+        Matrix* adj = this->Adjugate();
+        float det = this->Determinant();
+        if (det == 0)
+            return nullptr;
+        Matrix* inv = new Matrix(this->_row, this->_column);
+        for (int i = 0; i < this->_row; i++)
+            for (int j = 0; j < this->_column; j++)
+                inv->m[i][j] = adj->m[i][j] / det;
+        return inv;
     }
 };
 

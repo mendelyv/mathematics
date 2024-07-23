@@ -105,6 +105,12 @@ void MatrixTest()
     printf("matC submatrix: \n");
     matC->Submatrix(0, 1).Print();
     printf("matC determinant : %f \n", matC->Determinant());
+    printf("matC adjugate : \n");
+    matC->Adjugate()->Print();
+    printf("matC inverse : \n");
+    matC->Inverse()->Print();
+    printf("matC x inverse matC : \n");
+    Matrix::Multiply(matC, matC->Inverse())->Print();
 }
 
 int main()
