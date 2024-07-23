@@ -47,70 +47,62 @@ void VectorTest()
 
 void MatrixTest()
 {
-    float data[4][3] = {
-        { 1.0f, 2.0f, 3.0f },
-        { 4.0f, 5.0f, 6.0f },
-        { 7.0f, 8.0f, 9.0f },
-        { 10.0f, 11.0f, 12.0f },
+    float data[] = {
+        1.0f, 2.0f, 3.0f,
+        4.0f, 5.0f, 6.0f,
+        7.0f, 8.0f, 9.0f,
+        10.0f, 11.0f, 12.0f,
     };
 
-    Matrix* mat = new Matrix(4, 3);
-    for (int i = 0; i < mat->row(); i++)
-        for (int j = 0; j < mat->column(); j++)
-            mat->m[i][j] = data[i][j];
+    Matrix mat(4, 3);
+    mat.SetValuesFromArray(data);
     printf("initial mat : \n");
-    mat->Print();
+    mat.Print();
     printf("mat transpose : \n");
-    mat->Transpose();
-    mat->Print();
+    mat.Transpose();
+    mat.Print();
 
 
-    float dataMultA[3][3] = {
-        { 1, -5, 3 },
-        { 0, -2, 6 },
-        { 7, 2, -4 },
+    float dataMultA[] = {
+        1, -5, 3,
+        0, -2, 6,
+        7, 2, -4,
     };
-    Matrix* matA = new Matrix(3, 3);
-    for (int i = 0; i < matA->row(); i++)
-        for (int j = 0; j < matA->column(); j++)
-            matA->m[i][j] = dataMultA[i][j];
+    Matrix matA(3, 3);
     printf("inital matA : \n");
-    matA->Print();
-    float dataMultB[3][3] = {
-        { -8, 6, 1 },
-        { 7, 0, -3 },
-        { 2, 4, 5 },
+    matA.SetValuesFromArray(dataMultA);
+    matA.Print();
+    float dataMultB[] = {
+        -8, 6, 1,
+        7, 0, -3,
+        2, 4, 5,
     };
-    Matrix* matB = new Matrix(3, 3);
-    for (int i = 0; i < matB->row(); i++)
-        for (int j = 0; j < matB->column(); j++)
-            matB->m[i][j] = dataMultB[i][j];
+    Matrix matB(3, 3);
+    matB.SetValuesFromArray(dataMultB);
     printf("inital matB : \n");
-    matB->Print();
+    matB.Print();
     printf("matA x matB : \n");
-    Matrix* matABres = Matrix::Multiply(matA, matB);
-    matABres->Print();
+    Matrix matABres = Matrix::Multiply(matA, matB);
+    matABres.Print();
 
-    float dataC[3][3] = {
-        { -4, -3, 3 },
-        { 0, 2, -2 },
-        { 1, 4, -1 },
+    float dataC[] = {
+         -4, -3, 3 ,
+         0, 2, -2 ,
+         1, 4, -1 ,
     };
-    Matrix* matC = new Matrix(3, 3);
-    for (int i = 0; i < matC->row(); i++)
-        for (int j = 0; j < matC->column(); j++)
-            matC->m[i][j] = dataC[i][j];
+    Matrix matC(3, 3);
+    matC.SetValuesFromArray(dataC);
     printf("inital matC : \n");
-    matC->Print();
+    matC.Print();
     printf("matC submatrix: \n");
-    matC->Submatrix(0, 1).Print();
-    printf("matC determinant : %f \n", matC->Determinant());
+    matC.Submatrix(0, 1).Print();
+    printf("matC determinant : %f \n", matC.Determinant());
     printf("matC adjugate : \n");
-    matC->Adjugate()->Print();
+    matC.Adjugate().Print();
     printf("matC inverse : \n");
-    matC->Inverse()->Print();
+    matC.Inverse().Print();
     printf("matC x inverse matC : \n");
-    Matrix::Multiply(matC, matC->Inverse())->Print();
+    Matrix::Multiply(matC, matC.Inverse()).Print();
 }
 
 int main()

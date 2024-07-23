@@ -17,19 +17,57 @@ public:
     {
         this->Init(row, column);
     }
+    Matrix(const Matrix& other)
+    {
+        this->Init(other._row, other._column);
+        for (int i = 0; i < other._row; i++)
+            for (int j = 0; j < other._column; j++)
+                this->m[i][j] = other.m[i][j];
+    }
+    Matrix& operator=(const Matrix& other)
+    {
+        if (this == &other)
+            return *this;
+        this->Destroy();
+        this->Init(other._row, other._column);
+        for (int i = 0; i < other._row; i++)
+            for (int j = 0; j < other._column; j++)
+                this->m[i][j] = other.m[i][j];
+        return *this;
+    }
     ~Matrix()
     {
         this->Destroy();
     }
 
 
-    const int row()
+    int row() const
     {
         return this->_row;
     }
-    const int column()
+    int column() const
     {
         return this->_column;
+    }
+
+
+    void SetValuesFromArray(const float* array)
+    {
+        if (nullptr == array)
+            throw "Input array cannot be null";
+        for (int i = 0; i < this->_row; i++)
+            for (int j = 0; j < this->_column; j++)
+                this->m[i][j] = array[i * this->_column + j];
+    }
+
+
+    void SetValuesFrom2DArray(const float** array)
+    {
+        if (nullptr == array)
+            throw "Input array cannot be null";
+        for (int i = 0; i < this->_row; i++)
+            for (int j = 0; j < this->_column; j++)
+                this->m[i][j] = array[i][j];
     }
 
 
@@ -51,10 +89,13 @@ public:
 
     void Destroy()
     {
-        for (int i = 0; i < this->_row; i++)
+        if (this->m)
         {
-            delete[] this->m[i];
-            this->m[i] = nullptr;
+            for (int i = 0; i < this->_row; i++)
+            {
+                delete[] this->m[i];
+                this->m[i] = nullptr;
+            }
         }
         delete[] this->m;
         this->m = nullptr;
@@ -75,13 +116,9 @@ public:
     }
 
 
-    Matrix* Clone()
+    Matrix Clone()
     {
-        Matrix* _clone = new Matrix(this->_row, this->_column);
-        for (int i = 0; i < this->_row; i++)
-            for (int j = 0; j < this->_column; j++)
-                _clone->m[i][j] = this->m[i][j];
-        return _clone;
+        return Matrix(*this);
     }
 
 
@@ -90,14 +127,14 @@ public:
      */
     void Transpose()
     {
-        Matrix* temp = this->Clone();
+        Matrix temp = this->Clone();
         this->Destroy();
-        int row = temp->_column;
-        int column = temp->_row;
+        int row = temp._column;
+        int column = temp._row;
         this->Init(row, column);
-        for (int i = 0; i < temp->_row; i++)
-            for (int j = 0; j < temp->_column; j++)
-                this->m[j][i] = temp->m[i][j];
+        for (int i = 0; i < temp._row; i++)
+            for (int j = 0; j < temp._column; j++)
+                this->m[j][i] = temp.m[i][j];
     }
 
 
@@ -119,13 +156,13 @@ public:
      *
      * @param datas
      */
-    void Add(Matrix* datas)
+    void Add(const Matrix& datas)
     {
-        if (datas->row() != this->_row && datas->column() != this->_column)
-            return;
+        if (datas._row != this->_row && datas._column != this->_column)
+            throw "Matrix size not match";
         for (int i = 0; i < this->_row; i++)
             for (int j = 0; j < this->_column; j++)
-                this->m[i][j] += datas->m[i][j];
+                this->m[i][j] += datas.m[i][j];
     }
 
 
@@ -134,13 +171,13 @@ public:
      *
      * @param datas
      */
-    void Subtract(Matrix* datas)
+    void Subtract(const Matrix& datas)
     {
-        if (datas->row() != this->_row && datas->column() != this->_column)
-            return;
+        if (datas._row != this->_row && datas._column != this->_column)
+            throw "Matrix size not match";
         for (int i = 0; i < this->_row; i++)
             for (int j = 0; j < this->_column; j++)
-                this->m[i][j] -= datas->m[i][j];
+                this->m[i][j] -= datas.m[i][j];
     }
 
 
@@ -151,15 +188,15 @@ public:
      * @param b
      * @return
      */
-    static Matrix* Multiply(Matrix* a, Matrix* b)
+    static Matrix Multiply(const Matrix& a, const Matrix& b)
     {
-        if (a->column() != b->row())
-            return nullptr;
-        Matrix* res = new Matrix(a->row(), b->column());
-        for (int i = 0; i < a->row(); i++)
-            for (int j = 0; j < b->column(); j++)
-                for (int k = 0; k < a->column(); k++)
-                    res->m[i][j] += a->m[i][k] * b->m[k][j];
+        if (a._column != b._row)
+            throw "Matrix size not match";
+        Matrix res(a._row, b._column);
+        for (int i = 0; i < a._row; i++)
+            for (int j = 0; j < b._column; j++)
+                for (int k = 0; k < a._column; k++)
+                    res.m[i][j] += a.m[i][k] * b.m[k][j];
         return res;
     }
 
@@ -193,10 +230,10 @@ public:
     }
 
 
-    float Determinant()
+    float Determinant() const
     {
         if (this->_row != this->_column)
-            return 0;
+            throw "Matrix must be square to compute determinant";
         if (this->_row == 2 && this->_column == 2)
             return this->m[0][0] * this->m[1][1] - this->m[0][1] * this->m[1][0];
         float det = 0.0f;
@@ -216,17 +253,17 @@ public:
      *
      * @return
      */
-    Matrix* Adjugate()
+    Matrix Adjugate() const
     {
         if (this->_row != this->_column)
-            return nullptr;
-        Matrix* adj = new Matrix(this->_row, this->_column);
+            throw "Matrix must be square to compute determinant";
+        Matrix adj(this->_row, this->_column);
         for (int i = 0; i < this->_row; i++)
         {
             for (int j = 0; j < this->_column; j++)
             {
                 Matrix sub = this->Submatrix(i, j);
-                adj->m[j][i] = ((i + j) % 2 == 0) ? sub.Determinant() : -sub.Determinant();
+                adj.m[j][i] = ((i + j) % 2 == 0) ? sub.Determinant() : -sub.Determinant();
             }
         }
         return adj;
@@ -236,20 +273,20 @@ public:
     /**
      * @brief 逆矩阵
      *
-     * @return 
+     * @return
      */
-    Matrix* Inverse()
+    Matrix Inverse() const
     {
         if (this->_row != this->_column)
-            return nullptr;
-        Matrix* adj = this->Adjugate();
+            throw "Matrix must be square to compute determinant";
+        Matrix adj = this->Adjugate();
         float det = this->Determinant();
         if (det == 0)
-            return nullptr;
-        Matrix* inv = new Matrix(this->_row, this->_column);
+            throw "Matrix is singular and cannot be inverted";
+        Matrix inv(this->_row, this->_column);
         for (int i = 0; i < this->_row; i++)
             for (int j = 0; j < this->_column; j++)
-                inv->m[i][j] = adj->m[i][j] / det;
+                inv.m[i][j] = adj.m[i][j] / det;
         return inv;
     }
 };
