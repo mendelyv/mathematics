@@ -47,13 +47,14 @@ void VectorTest()
 
 void MatrixTest()
 {
+    // clang-format off
     float data[] = {
         1.0f, 2.0f, 3.0f,
         4.0f, 5.0f, 6.0f,
         7.0f, 8.0f, 9.0f,
         10.0f, 11.0f, 12.0f,
     };
-
+    // clang-format on
     Matrix mat(4, 3);
     mat.SetValuesFromArray(data);
     printf("initial mat : \n");
@@ -61,22 +62,24 @@ void MatrixTest()
     printf("mat transpose : \n");
     mat.Transpose();
     mat.Print();
-
-
+    // clang-format off
     float dataMultA[] = {
         1, -5, 3,
         0, -2, 6,
         7, 2, -4,
     };
+    // clang-format on
     Matrix matA(3, 3);
     printf("inital matA : \n");
     matA.SetValuesFromArray(dataMultA);
     matA.Print();
+    // clang-format off
     float dataMultB[] = {
         -8, 6, 1,
         7, 0, -3,
         2, 4, 5,
     };
+    // clang-format on
     Matrix matB(3, 3);
     matB.SetValuesFromArray(dataMultB);
     printf("inital matB : \n");
@@ -84,12 +87,13 @@ void MatrixTest()
     printf("matA x matB : \n");
     Matrix matABres = Matrix::Multiply(matA, matB);
     matABres.Print();
-
+    // clang-format off
     float dataC[] = {
          -4, -3, 3 ,
          0, 2, -2 ,
          1, 4, -1 ,
     };
+    // clang-format on
     Matrix matC(3, 3);
     matC.SetValuesFromArray(dataC);
     printf("inital matC : \n");
