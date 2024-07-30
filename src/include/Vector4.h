@@ -1,171 +1,41 @@
 #ifndef RAN_VECTOR_H
 #define RAN_VECTOR_H
 
-#include <cmath>
-#include <iostream>
+#include "Vector.h"
 
-class Vector4
+class Vector4 : public Vector
 {
 public:
-    float x;
-    float y;
-    float z;
-    float w;
-
-public:
-    Vector4(float x = 0.0f, float y = 0.0f, float z = 0.0f, float w = 0.0f)
+    Vector4(float x = 0.0f, float y = 0.0f, float z = 0.0f, float w = 0.0f) : Vector(4)
     {
-        this->x = x;
-        this->y = y;
-        this->z = z;
-        this->w = w;
+        this->_dimension = 4;
+        this->v = new float[this->_dimension];
+        this->v[0] = x;
+        this->v[1] = y;
+        this->v[2] = z;
+        this->v[3] = w;
     }
-
-
-    void Print()
-    {
-        std::cout << "[ " << x << ", " << y << ", " << z << ", " << w << " ]" << std::endl;
-    }
-
-
-    /**
-     * @brief 矢量缩放
-     *
-     * 矢量与标量相乘，使用标量乘以矢量的每个分量即可
-     *
-     * 在几何上，将矢量乘以标量s具有将长度缩放|s|因子的效果，如果s<0，则反转矢量的方向
-     *
-     * @param v 矢量
-     * @param s 缩放系数
-     */
-    static void Scale(Vector4* v, float s)
-    {
-        v->x *= s;
-        v->y *= s;
-        v->z *= s;
-        v->w *= s;
-    }
-
-
-    /**
-     * @brief 矢量相加
-
-     * 矢量相加必须两个矢量的维度相同，对应元素相加即可
-
-     * 我们可以按照几何形式将矢量a和b相加，方法是定位矢量，使得a的头部接触b的尾部，然后绘制一个从a的尾部到b的头部的矢量，矢量加法的三角形法则
-     *
-     * @param res
-     * @param a
-     * @param b
-     * @return
-     */
-    static void Add(Vector4* res, Vector4* a, Vector4* b)
-    {
-        res->x = a->x + b->x;
-        res->y = a->y + b->y;
-        res->z = a->z + b->z;
-    }
-    static Vector4 Add(Vector4* a, Vector4* b)
-    {
-        Vector4 res;
-        res.x = a->x + b->x;
-        res.y = a->y + b->y;
-        res.z = a->z + b->z;
-        return res;
-    }
-
-
-    /**
-     * @brief 矢量相减
-
-     * 可以看作加一个反方向的矢量
-     *
-     * @param res
-     * @param a
-     * @param b
-     * @return
-     */
-    static void Sub(Vector4* res, Vector4* a, Vector4* b)
-    {
-        res->x = a->x - b->x;
-        res->y = a->y - b->y;
-        res->z = a->z - b->z;
-    }
-    static Vector4 Sub(Vector4* a, Vector4* b)
-    {
-        Vector4 res;
-        res.x = a->x - b->x;
-        res.y = a->y - b->y;
-        res.z = a->z - b->z;
-        return res;
-    }
-
-
-    /**
-     * @brief 矢量点积
-
-     * 两个矢量的点积等于它们的各分量的乘积之和
-
-     * 点积的几何意义是矢量的投影，即矢量a在矢量b上的投影长度，矢量a和b的点积等于矢量a在矢量b上的投影向量的长度，矢量a和b的点积等于矢量a在矢量b上的投影面积
-     *
-     * @param a
-     * @param b
-     * @return
-     */
-    static float DotProduct(Vector4* a, Vector4* b)
-    {
-        return a->x * b->x + a->y * b->y + a->z * b->z;
-    }
-
-
     /**
      * @brief 矢量叉积
 
-     * 叉积将产生一个矢量，垂直于原始的两个矢量，方向取决于左右手坐标系
+     * 叉积将产生一个矢量，垂直于原始的两个矢量，方↵
+向取决于左右手坐标系
      *
      * @param res
      * @param a
      * @param b
      */
-    static void CrossProduct(Vector4* res, Vector4* a, Vector4* b)
+    static void CrossProduct(Vector4& res, const Vector4& a, const Vector4& b)
     {
-        res->x = a->y * b->z - a->z * b->y;
-        res->y = a->z * b->x - a->x * b->z;
-        res->z = a->x * b->y - a->y * b->x;
+        res.v[0] = a.v[1] * b.v[2] - a.v[2] * b.v[1];
+        res.v[1] = a.v[2] * b.v[0] - a.v[0] * b.v[2];
+        res.v[2] = a.v[0] * b.v[1] - a.v[1] * b.v[0];
     }
-    static Vector4 CrossProduct(Vector4* a, Vector4* b)
+    static Vector4 CrossProduct(const Vector4& a, const Vector4& b)
     {
         Vector4 res;
-        res.x = a->y * b->z - a->z * b->y;
-        res.y = a->z * b->x - a->x * b->z;
-        res.z = a->x * b->y - a->y * b->x;
+        CrossProduct(res, a, b);
         return res;
-    }
-
-
-    /**
-     * @brief 矢量长度
-     *
-     * @param v
-     * @return
-     */
-    float Length()
-    {
-        return sqrt(this->x * this->x + this->y * this->y + this->z * this->z);
-    }
-
-
-    /**
-     * @brief 矢量归一化
-     */
-    void Normalize()
-    {
-        float len = this->Length();
-        if (fabsf(len) < 1e-6) return;
-        float k = 1 / len;
-        this->x *= k;
-        this->y *= k;
-        this->z *= k;
     }
 };
 
